@@ -51,7 +51,7 @@ cluster, those being:
 
 With the dependencies met, proceed with the installation of this package:
 
-1. Create a file named `ootb-supply-chains.yaml` that specifies the
+1. Create a file named `cartographer-catalog.yaml` that specifies the
    corresponding values to the properties you want to change. For example:
 
     ```yaml
@@ -66,27 +66,27 @@ With the dependencies met, proceed with the installation of this package:
 1. Having the configuration ready, install the package by running:
 
     ```shell
-    tanzu package install ootb-supply-chains \
-      --package-name ootb-supply-chains.community.tanzu.vmware.com \
+    tanzu package install cartographer-catalog \
+      --package-name cartographer-catalog.community.tanzu.vmware.com \
       --version ${OOTB_SUPPLY_CHAINS_PACKAGE_VERSION} \
-      --values-file ootb-supply-chains.yaml
+      --values-file cartographer-catalog.yaml
     ```
 
     Example output:
 
     ```console
-    \ Installing package 'ootb-supply-chains.community.tanzu.vmware.com'
-    | Getting package metadata for 'ootb-supply-chains.community.tanzu.vmware.com'
-    | Creating service account 'ootb-supply-chains-default-sa'
-    | Creating cluster admin role 'ootb-supply-chains-default-cluster-role'
-    | Creating cluster role binding 'ootb-supply-chains-default-cluster-rolebinding'
-    | Creating secret 'ootb-supply-chains-default-values'
+    \ Installing package 'cartographer-catalog.community.tanzu.vmware.com'
+    | Getting package metadata for 'cartographer-catalog.community.tanzu.vmware.com'
+    | Creating service account 'cartographer-catalog-default-sa'
+    | Creating cluster admin role 'cartographer-catalog-default-cluster-role'
+    | Creating cluster role binding 'cartographer-catalog-default-cluster-rolebinding'
+    | Creating secret 'cartographer-catalog-default-values'
     | Creating package resource
-    - Waiting for 'PackageInstall' reconciliation for 'ootb-supply-chains'
+    - Waiting for 'PackageInstall' reconciliation for 'cartographer-catalog'
     / 'PackageInstall' resource install status: Reconciling
 
 
-     Added installed package 'ootb-supply-chains' in namespace 'default'
+     Added installed package 'cartographer-catalog' in namespace 'default'
     ```
 
 ## Usage

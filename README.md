@@ -1,7 +1,7 @@
-# Out of the Box Supply Chains for TCE
+# Cartographer Catalog
 
-Series of reusable Cartographer Supply Chains and templates for driving
-workloads from source code to running Knative service in a cluster.
+Reusable Cartographer Supply Chains and templates for driving workloads from
+source code to running Knative service in a cluster.
 
 ## Components
 

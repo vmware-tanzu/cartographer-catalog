@@ -39,9 +39,6 @@ cluster, those being:
   installing this package as well as the `App` CRD used by the supply chain to
   deploy the applications built according to the supply chains
 
-* **cartographer-conventions**, for applying conventions to the podtemplatespec
-  embeded in the final configuration generated for the application
-
 * **kpack**, for building container images out of source code
 
 * **source-controller**, for keeping track of changes to a git repository and
@@ -101,8 +98,7 @@ source code or base image used for building the application.
 ```mermaid
 flowchart RL
   Kpack -- commit --> GitRepository
-  PodIntent -- container image --> Kpack
-  App -- podtemplatespec --> PodIntent
+  App -- container image --> Kpack
 
   subgraph source-provider
   GitRepository
@@ -110,10 +106,6 @@ flowchart RL
 
   subgraph image-builder
   Kpack
-  end
-
-  subgraph conventions-applier
-  PodIntent
   end
 
   subgraph deployer
@@ -265,7 +257,6 @@ default    ├─Image/hello-world
 default    │ ├─Build/hello-world-build-1
 default    │ ├─PersistentVolumeClaim/hello-world-cache
 default    │ └─SourceResolver/hello-world-source
-default    ├─PodIntent/hello-world
 default    └─App/hello-world
 ```
 

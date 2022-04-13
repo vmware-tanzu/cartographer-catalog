@@ -25,7 +25,6 @@ readonly KNATIVE_SERVING_VERSION=1.3.0
 readonly KPACK_VERSION=0.5.2
 readonly SECRETGEN_CONTROLLER_VERSION=0.8.0
 readonly SOURCE_CONTROLLER_VERSION=0.22.4
-readonly CARTOGRAPHER_CONVENTIONS_VERSION=0.1.0-build.3
 
 main() {
         cd $ROOT/hack
@@ -45,7 +44,6 @@ main() {
                         install_secretgen_controller
 
                         install_cartographer
-                        install_cartographer_conventions
                         install_knative_serving
                         install_kpack
                         install_source_controller
@@ -134,13 +132,6 @@ install_cartographer() {
                 -f "./overlays/strip-resources.yaml" \
                 -f https://github.com/vmware-tanzu/cartographer/releases/download/v$CARTOGRAPHER_VERSION/cartographer.yaml |
                 kapp deploy --yes -a cartographer -f-
-}
-
-install_cartographer_conventions() {
-        ytt --ignore-unknown-comments \
-                -f https://github.com/vmware-tanzu/cartographer-conventions/releases/download/v$CARTOGRAPHER_CONVENTIONS_VERSION/cartographer-conventions-v$CARTOGRAPHER_CONVENTIONS_VERSION.yaml \
-                -f "./overlays/strip-resources.yaml" |
-                kapp deploy --yes -a cartographer-conventions -f-
 }
 
 install_cert_manager() {

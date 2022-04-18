@@ -56,9 +56,25 @@ With the dependencies met, proceed with the installation of this package:
     service_account: default
 
     registry:
-      server: REGISTRY-SERVER
-      repository: REGISTRY-REPOSITORY
+      server: SERVER-NAME
+      repository: REPO-NAME
     ```
+
+    _**SERVER-NAME**_ is the hostname of the registry server.
+    Examples:
+    * Harbor: "my-harbor.io"
+    * DockerHub: "index.docker.io"
+    * Google Cloud Registry: "gcr.io"
+    * GitHub Packages (ghcr): "ghcr.io"
+
+    _**REPO-NAME**_  is where workload images are stored in the registry.
+    Images are written to SERVER-NAME/REPO-NAME/WL_NAME-WL_NAMESPACE.
+    Examples:
+    * Harbor: "my-project/supply-chain"
+    * DockerHub: "my-dockerhub-user"
+    * Google Cloud Registry: "my-project/supply-chain"
+    * GitHub Packages (ghcr): "my-gh-repository" or
+      "my-gh-repository/supply-chain"
 
 1. Having the configuration ready, install the package by running:
 
@@ -145,18 +161,19 @@ tanzu secret registry add registry-credentials \
 
 Where:
 
-* `REGISTRY-SERVER` is the URL of the registry.
+* _**REGISTRY-SERVER**_ is the URL of the registry, not including the
+  repository/directory where images will be pushed to. Examples:
 
-  * For Dockerhub, this must be `https://index.docker.io/v1/`.
-    Specifically, it must have the leading `https://`, the `v1` path, and
-    the trailing `/`.
+  * Harbor: `my-harbor.io`
+  * DockerHub: `https://index.docker.io/v1/`. Specifically, it _must_ have the
+    leading `https://`, the `v1` path, and the trailing `/`)
+  * Google Cloud Registry: `gcr.io`. The username can be `_json_key` and the
+    password can be the JSON credentials you get from the GCP UI (under `IAM
+    -> Service Accounts` create an account or edit an existing one and create
+    a key with type JSON)
+  * GitHub Packages (ghcr): `ghcr.io`
 
-  * For GCR, this is `gcr.io`. The username can be `_json_key` and the
-    password can be the JSON credentials you get from the GCP UI (under
-    `IAM -> Service Accounts` create an account or edit an existing one
-    and create a key with type JSON)
-
-note: alternatively, you can create the secret using `kubectl`:
+Alternatively, you can create the secret using `kubectl`:
 
 ```bash
 kubectl create secret docker-registry registry-credentials \
@@ -187,6 +204,12 @@ imagePullSecrets:
   - name: registry-credentials
 ```
 
+> **Note**: if during the installation of the package a different default
+> service account name has been setup, make sure to create in the namespace a
+> serviceaccount that matches the name set in the installation (e.g., if
+> `ootb-supply-chains-values.yaml` is set such that `service_account: foo` is
+> configured, this object must be named `foo`).
+
 #### RoleBinding
 
 Bind to the ServiceAccount the role that would then permit the controllers
@@ -205,6 +228,11 @@ subjects:
   - kind: ServiceAccount
     name: default
 ```
+
+> **Note**: Similar to the ServiceAccount setup, if during the installation of
+> the package a different default service account name has been configured,
+> make sure to not reference `default` in the subjects, but the name of the
+> serviceaccount to be used by the workloads).
 
 ### Workload
 
@@ -288,6 +316,10 @@ spec:
   # name of the serviceaccount to grant to Cartographer the necessary
   # privileges for creating/watching/etc the resources defined by the
   # supply chain.
+  #
+  # the clusterrole provided by this package must be bound to this
+  # serviceaccount for the controller to manage the resources according to the
+  # supply chain specification.
   #
   serviceAccountName: default
 

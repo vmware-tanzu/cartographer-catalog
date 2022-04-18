@@ -56,9 +56,25 @@ With the dependencies met, proceed with the installation of this package:
     service_account: default
 
     registry:
-      server: REGISTRY-SERVER
-      repository: REGISTRY-REPOSITORY
+      server: SERVER-NAME
+      repository: REPO-NAME
     ```
+
+    _**SERVER-NAME**_ is the hostname of the registry server.
+    Examples:
+    * Harbor: "my-harbor.io"
+    * DockerHub: "index.docker.io"
+    * Google Cloud Registry: "gcr.io"
+    * GitHub Packages (ghcr): "ghcr.io"
+
+    _**REPO-NAME**_  is where workload images are stored in the registry.
+    Images are written to SERVER-NAME/REPO-NAME/WL_NAME-WL_NAMESPACE.
+    Examples:
+    * Harbor: "my-project/supply-chain"
+    * DockerHub: "my-dockerhub-user"
+    * Google Cloud Registry: "my-project/supply-chain"
+    * GitHub Packages (ghcr): "my-gh-repository" or
+      "my-gh-repository/supply-chain"
 
 1. Having the configuration ready, install the package by running:
 

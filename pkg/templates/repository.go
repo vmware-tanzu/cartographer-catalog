@@ -1,4 +1,18 @@
-package unit
+// Copyright 2022 VMware
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package templates
 
 import (
 	"context"
@@ -17,8 +31,23 @@ type repository struct {
 	cl client.Client
 }
 
+// WithClient customizes the default controller-runtime client that is
+// instantiated by default when creating a repository using NewRepository.
+//
+func WithClient(cl client.Client) RepositoryOption {
+	return func(r *repository) {
+		r.cl = cl
+	}
+}
+
+// RepositoryOption provides ways of customizing the default behavior of the
+// repository.
+//
 type RepositoryOption func(r *repository)
 
+// NewRepository instantiates a new repository using the defaults set by the
+// package with those being customizable via RepositoryOptions.
+//
 func NewRepository(opts ...RepositoryOption) *repository {
 	r := &repository{}
 	for _, opt := range opts {

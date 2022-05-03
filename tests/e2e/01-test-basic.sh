@@ -18,10 +18,10 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
-readonly root=$(cd $(dirname $0)/.. && pwd)
+readonly root=$(cd $(dirname $0)/../.. && pwd)
 
 main() {
-        cd $root/tests
+        cd $root/tests/e2e
 
         run_test
 }
